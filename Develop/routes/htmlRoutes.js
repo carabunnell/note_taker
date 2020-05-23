@@ -8,7 +8,7 @@ module.exports = function(app) {
     //below code handles when users "visit" a page. 
     //in each of the cases the user is shown an html page of content
     app.get("/notes", function(req, res) {
-        res.sendFile(path.join(__dirname, "../public/notes.html"))
+        res.sendFile(path.join(__dirname, "../public/notes-new.html"));
     });
     
     //If no matching route is found
