@@ -29,7 +29,7 @@ module.exports = function (app) {
 
     app.post("/api/notes", function (req, res) {
         //adding a new note to json and reading it. 
-        // console.log("filed notes:", filedNotes.length);
+        console.log("filed notes:", filedNotes.length);
         //reading file
         
         // fs.readFileSync(filedNotes, "utf8", (err, data) => {
@@ -37,7 +37,11 @@ module.exports = function (app) {
         //     var parsed = JSON.parse(data);
         //     console.log(parsed);
         // });
+        var dataCurrent = fs.readFileSync(filedNotes, "utf8");
+        var objCurrent = JSON.parse(dataCurrent);
+        console.log(objCurrent);
 
+        // var fullObject = obj.filter(note => { return note.id != idRemove });
 
         //consologing the parsed data to find the id of last input.
         // console.log(obj);
@@ -73,17 +77,18 @@ module.exports = function (app) {
 
 
     app.delete("/api/notes/:id", function(req, res) {
-        const idToDelete = req.params.id;
-    
-        const data = fs.readFileSync(filedNotes, "utf8");
-        console.log(data);
-        let obj = JSON.parse(data);
-        let objWithoutDeletedID = obj.filter(note => { return note.id != idToDelete });
-        let objString = JSON.stringify(objWithoutDeletedID, null, 2);
+        var idRemove = req.params.id;
+        //reads file, consolelogs files, and then turns it into an object.
+        var dataCurrent = fs.readFileSync(filedNotes, "utf8");
+        console.log(dataCurrent);
+        var objCurrent = JSON.parse(dataCurrent);
+        //takes
+        var updatedObject = objCurrent.filter(note => { return note.id != idRemove });
+        var objString = JSON.stringify(updatedObject, null, 2);
     
         fs.writeFile(filedNotes, objString, "utf8", err => {
             if (err) throw err;
-            console.log(`Note with id ${idToDelete} has been deleted.`);
+            console.log("note" + idRemove + "successfully deleted");
         });
         fs.readFile(filedNotes, "utf8", (err, data) => {
             if (err) throw err;
